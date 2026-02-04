@@ -1,13 +1,28 @@
-// src/App.jsx
+// src/App.jsx - Updated
 import React from 'react';
-import './styles/App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { DashboardProvider } from './contexts/DashboardContext';
 import Dashboard from './components/Dashboard';
+import DashboardPage from './pages/DashboardPage';
+import ProfilePage from './pages/ProfilePage';
+import SystemStatusPage from './pages/SystemStatusPage';
+import './styles/App.css';
 
 function App() {
   return (
-    <div className="app-container">
-      <Dashboard />
-    </div>
+    <Router>
+      <DashboardProvider>
+        <Routes>
+          <Route path="/" element={<Dashboard />}>
+            <Route index element={<DashboardPage />} />
+            <Route path="dashboard" element={<DashboardPage />} />
+            <Route path="profile" element={<ProfilePage />} />
+            <Route path="system-status" element={<SystemStatusPage />} />
+            {/* Tambahkan route lainnya */}
+          </Route>
+        </Routes>
+      </DashboardProvider>
+    </Router>
   );
 }
 
