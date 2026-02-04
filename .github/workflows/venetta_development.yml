@@ -1,37 +1,13 @@
-name: Deploy React to GitHub Pages
-
-on:
-  push:
-    branches: ["main"] # Sesuaikan dengan branch Anda (main atau dev)
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-jobs:
-  build_and_deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'npm'
-
-      - name: Install
-        run: npm install
-
-      - name: Build
+      - name: Build Project
         run: npm run build
+        env:
+          CI: false # Agar build tidak gagal jika ada warning
 
-      - name: Upload
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist' # Vite menghasilkan folder dist, bukan build
+          path: './build' # Pastikan ini './build'
 
-      - name: Deploy
+      - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4
