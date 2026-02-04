@@ -1,8 +1,8 @@
-name: Autodeploy React
+name: Deploy React to GitHub Pages
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main"] # Sesuaikan dengan branch Anda (main atau dev)
 
 permissions:
   contents: read
@@ -14,28 +14,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4 # Pastikan v4
+        uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4 # Pastikan v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
 
-      - name: Install dependencies
+      - name: Install
         run: npm install
 
-      - name: Build Project
+      - name: Build
         run: npm run build
 
-      - name: Upload artifact
-        # Gunakan v3 untuk upload-pages-artifact atau v4 untuk upload-artifact biasa
-        # Karena kamu deploy ke Pages, gunakan upload-pages-artifact@v3 (ini masih didukung)
-        # Tapi jika error berlanjut, pastikan semua action menggunakan versi terbaru
-        uses: actions/upload-pages-artifact@v3 
+      - name: Upload
+        uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist'
+          path: './dist' # Vite menghasilkan folder dist, bukan build
 
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4 # Pastikan v4
+      - name: Deploy
+        uses: actions/deploy-pages@v4
